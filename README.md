@@ -1,9 +1,9 @@
-# WealthToken (WEALTH)
+# WealthCrypto (WEALTH)
 
 ERC20 token with a fixed maximum supply and an initial distribution to predefined wallets at deployment. The token has no public mint function; supply can only decrease via owner burn. The contract also provides ownership management (transfer and renounce ownership).
 
 ## Token Specification
-- Name: `WealthToken`
+- Name: `WealthCrypto`
 - Symbol: `WEALTH`
 - Decimals: `18`
 - Maximum Supply: `1,800,000 WEALTH`

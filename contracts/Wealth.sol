@@ -227,7 +227,7 @@ contract Wealth is ERC20 {
         address operation,
         address teamAlloc,
         address reserve
-    ) ERC20("WealthToken", "WEALTH") {
+    ) ERC20("WealthCrypto", "WEALTH") {
         require(privatesale != address(0) && presale != address(0) && listing != address(0) && marketing != address(0) && operation != address(0) && teamAlloc != address(0) && reserve != address(0), "Zero address");
         require(PCT_PRIVATESALE + PCT_PRESALE + PCT_LISTING + PCT_MARKETING_DEV + PCT_OPERATION + PCT_TEAMALLOC + PCT_RESERVE == 100, "Invalid percentages");
         require(MAX_SUPPLY % 100 == 0, "MAX_SUPPLY must be divisible by 100");
