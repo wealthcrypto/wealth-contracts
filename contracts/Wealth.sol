@@ -27,10 +27,6 @@ abstract contract Context {
     function _msgData() internal view virtual returns (bytes calldata) {
         return msg.data;
     }
-
-    function _contextSuffixLength() internal view virtual returns (uint256) {
-        return 0;
-    }
 }
 
 interface IERC20Errors {
@@ -204,18 +200,18 @@ contract Wealth is ERC20 {
     uint256 public constant PCT_RESERVE         = 30;      // 30%
 
     // Initial recipient addresses (immutable: set at deployment)
-    address public immutable WALLET_PRIVATESALE;
-    address public immutable WALLET_PRESALE;
-    address public immutable WALLET_LISTING;
-    address public immutable WALLET_MARKETING_DEV;
-    address public immutable WALLET_OPERATION;
-    address public immutable WALLET_TEAM_ALLOC;
-    address public immutable WALLET_RESERVE;
+    address public immutable walletPrivatesale;
+    address public immutable walletPresale;
+    address public immutable walletListing;
+    address public immutable walletMarketingDev;
+    address public immutable walletOperation;
+    address public immutable walletTeamAlloc;
+    address public immutable walletReserve;
 
-    address public OWNER;
+    address public owner;
 
     modifier onlyOwner() {
-        require(msg.sender == OWNER, "Not owner");
+        require(msg.sender == owner, "Not owner");
         _;
     }
 
@@ -232,25 +228,25 @@ contract Wealth is ERC20 {
         require(PCT_PRIVATESALE + PCT_PRESALE + PCT_LISTING + PCT_MARKETING_DEV + PCT_OPERATION + PCT_TEAMALLOC + PCT_RESERVE == 100, "Invalid percentages");
         require(MAX_SUPPLY % 100 == 0, "MAX_SUPPLY must be divisible by 100");
 
-        OWNER = msg.sender;
+        owner = msg.sender;
         
         // Initialize recipient wallets
-        WALLET_PRIVATESALE = privatesale;
-        WALLET_PRESALE = presale;
-        WALLET_LISTING = listing;
-        WALLET_MARKETING_DEV = marketing;
-        WALLET_OPERATION = operation;
-        WALLET_TEAM_ALLOC = teamAlloc;
-        WALLET_RESERVE = reserve;
+        walletPrivatesale = privatesale;
+        walletPresale = presale;
+        walletListing = listing;
+        walletMarketingDev = marketing;
+        walletOperation = operation;
+        walletTeamAlloc = teamAlloc;
+        walletReserve = reserve;
 
         // Initial distribution
-        _mint(WALLET_PRIVATESALE, (MAX_SUPPLY * PCT_PRIVATESALE) / 100);
-        _mint(WALLET_PRESALE,   (MAX_SUPPLY * PCT_PRESALE) / 100);
-        _mint(WALLET_LISTING, (MAX_SUPPLY * PCT_LISTING) / 100);
-        _mint(WALLET_MARKETING_DEV, (MAX_SUPPLY * PCT_MARKETING_DEV) / 100);
-        _mint(WALLET_OPERATION, (MAX_SUPPLY * PCT_OPERATION) / 100);
-        _mint(WALLET_TEAM_ALLOC, (MAX_SUPPLY * PCT_TEAMALLOC) / 100);
-        _mint(WALLET_RESERVE, (MAX_SUPPLY * PCT_RESERVE) / 100);
+        _mint(walletPrivatesale, (MAX_SUPPLY * PCT_PRIVATESALE) / 100);
+        _mint(walletPresale,   (MAX_SUPPLY * PCT_PRESALE) / 100);
+        _mint(walletListing, (MAX_SUPPLY * PCT_LISTING) / 100);
+        _mint(walletMarketingDev, (MAX_SUPPLY * PCT_MARKETING_DEV) / 100);
+        _mint(walletOperation, (MAX_SUPPLY * PCT_OPERATION) / 100);
+        _mint(walletTeamAlloc, (MAX_SUPPLY * PCT_TEAMALLOC) / 100);
+        _mint(walletReserve, (MAX_SUPPLY * PCT_RESERVE) / 100);
     }
 
     function burn(uint256 amount) public onlyOwner {
@@ -260,14 +256,14 @@ contract Wealth is ERC20 {
 
     function transferOwnership(address newOwner) public onlyOwner {
         require(newOwner != address(0), "Zero address");
-        address previousOwner = OWNER;
-        OWNER = newOwner;
+        address previousOwner = owner;
+        owner = newOwner;
         emit OwnershipTransferred(previousOwner, newOwner);
     }
 
     function renounceOwnership() public onlyOwner {
-        address previousOwner = OWNER;
-        OWNER = address(0);
+        address previousOwner = owner;
+        owner = address(0);
         emit OwnershipTransferred(previousOwner, address(0));
     }
 }
